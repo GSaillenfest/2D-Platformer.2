@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 2175107492451788047}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,10 +154,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1043247532522897121}
   playerRb: {fileID: 7819204885568135282}
+  jumpAndDogdeManager: {fileID: 0}
   jumpForce: 1500
   speed: 60
   speedMultiplier: 2
-  jumpManager: {fileID: 0}
 --- !u!70 &2175107492451788047
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -330,7 +330,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: e3c7ae50f706b784c8f2f5b89523e83b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -499,7 +499,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 66766212826084e448fa6008fd374bd0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

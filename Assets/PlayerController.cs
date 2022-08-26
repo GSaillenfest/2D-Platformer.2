@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header ("Objects")]
     [SerializeField] Animator animator;
     [SerializeField] Rigidbody2D playerRb;
+    [SerializeField] JumpAndDodgeManager jumpAndDogdeManager;
+    
+    [Header ("Settings")]
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float speed = 5f;
     [SerializeField] float speedMultiplier = 3f;
 
-    [SerializeField] jumpManager jumpManager;
 
     float horizontalMovement;
     float multiplier = 1f;
     bool isFacingRight = true;
     bool isJumping = false;
+    bool isDodging = false;
     bool canJump = true;
     bool performAJump = false;
+    bool performADodge = false;
     bool sprint = false;
+    bool fall = true;
 
     // Start is called before the first frame update
     void Start()
@@ -29,29 +35,44 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         horizontalMovement = Input.GetAxis("Horizontal");
-        isJumping = jumpManager.isJumping;
-        canJump = jumpManager.canJump;
+        isJumping = jumpAndDogdeManager.isJumping;
+        isDodging = jumpAndDogdeManager.isDodging;
+        canJump = jumpAndDogdeManager.canJump;
+        fall = jumpAndDogdeManager.fall;
         sprint = false;
 
-        if (Input.GetKeyDown(KeyCode.LeftControl)) animator.SetTrigger("dodge");
+        if (fall) Fall();
 
         if (!isJumping)
         {
-            if (horizontalMovement < 0) isFacingRight = false;
-            else if (horizontalMovement > 0) isFacingRight = true;
-            Flip();
+            if (!isDodging)
+            {
+                if (Input.GetKeyDown(KeyCode.S) && horizontalMovement != 0f)
+                {
+                    performADodge = true;
+                }
+
+                if (horizontalMovement < 0) isFacingRight = false;
+                else if (horizontalMovement > 0) isFacingRight = true;
+                FlipSprite();
+            }
 
 
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
                 performAJump = true;
-                animator.SetTrigger("jump");
-                animator.SetBool("isJumping", true);
             }
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 sprint = true;
+                animator.SetBool("isRunning", true);
+                multiplier = speedMultiplier;
+            }
+            else
+            {
+                animator.SetBool("isRunning", false);
+                multiplier = 1f;
             }
         }
     }
@@ -64,15 +85,11 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isWalking", true);
             if (sprint)
             {
-                animator.SetBool("isRunning", true);
-                multiplier = speedMultiplier;
-                playerRb.AddForce(Vector2.right * horizontalMovement * speed * speedMultiplier);
+                playerRb.AddForce(horizontalMovement * speed * speedMultiplier * Vector2.right);
             }
             else
             {
-                animator.SetBool("isRunning", false);
-                playerRb.AddForce(Vector2.right * horizontalMovement * speed);
-                multiplier = 1f;
+                playerRb.AddForce(horizontalMovement * speed * Vector2.right);
             }
             animator.SetFloat("multiplier", multiplier);
         }
@@ -83,9 +100,15 @@ public class PlayerController : MonoBehaviour
             Jump();
             performAJump = false;
         }
+
+        if (performADodge)
+        {
+            Dodge();
+            performADodge = false;
+        }
     }
 
-    void Flip()
+    void FlipSprite()
     {
         if (!isFacingRight)
         {
@@ -97,7 +120,23 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         playerRb.AddForce(Vector2.up * jumpForce);
+        animator.SetTrigger("jump");
+        animator.SetBool("isJumping", true);
     }
 
+    void Dodge()
+    {
+        animator.SetTrigger("dodge");
+    }
+
+    void Fall()
+    {
+        animator.SetBool("fall", true);
+    }
+
+     public void Land()
+    {
+        animator.SetBool("fall", false);
+    }
 
 }
