@@ -7,8 +7,9 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] GameObject player;
     [SerializeField] float boundary = 8f;
-    [SerializeField] float smoothTime = 0.5f;
+    [SerializeField] float smoothTime = 0.1f;
     private Vector3 velocity = Vector3.zero;
+    Vector3 nextPos;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +23,18 @@ public class CameraManager : MonoBehaviour
         transform.position = new Vector3(player.transform.position.x, transform.position.y, -10f);
         if (Mathf.Abs(transform.position.y - player.transform.position.y) > boundary)
         {
-            if (transform.position.y > player.transform.position.y) transform.position = Vector3.SmoothDamp(transform.position, new Vector3(player.transform.position.x, transform.position.y - boundary, transform.position.z),ref velocity, smoothTime);
-            else transform.position = Vector3.SmoothDamp(transform.position, new Vector3(player.transform.position.x, transform.position.y + boundary, transform.position.z), ref velocity, smoothTime);
+            if (transform.position.y > player.transform.position.y)
+            {
+                nextPos = new Vector3(player.transform.position.x, transform.position.y - 2 *boundary, transform.position.z);
+                transform.position = nextPos; //Vector3.SmoothDamp(transform.position, nextPos, ref playerVelocity, smoothTime);
+            }
+            else
+            {
+                nextPos = new Vector3(player.transform.position.x, transform.position.y + 2 * boundary, transform.position.z);
+                transform.position = Vector3.SmoothDamp(transform.position, nextPos, ref velocity, smoothTime);
+            }
         }
+
 
     }
 }

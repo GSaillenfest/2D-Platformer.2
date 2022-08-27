@@ -8,12 +8,18 @@ public class JumpAndDodgeManager : MonoBehaviour
     public bool isJumping = false;
     public bool isDodging = false;
     public bool canJump = true;
-    public bool fall;
+    public bool isFreeFalling = false;
+    public bool fallAnimDone = false;
+
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] CapsuleCollider2D playerCollider;
+    [SerializeField] PlayerController playerController;
+    
+    [Header ("Settings")]
     [SerializeField] float gravityMod = 3f;
+    
     float baseGravityValue;
-    bool floor = true;
+    float beforeJumpPos;
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +30,14 @@ public class JumpAndDodgeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerRb.velocity.y < 0 && isJumping && !fall) HighGravity();
-        else if (!isJumping && !fall) BaseGravity();
+        if (playerRb.velocity.y < 0 && isJumping && !isFreeFalling) HighGravity();
+        //else if (!isJumping && !isFreeFalling) BaseGravity();
+
+        if (!fallAnimDone && playerRb.velocity.y < 0)
+        {
+            if (isJumping && transform.position.y < beforeJumpPos + 1f) CheckForFloor();
+            else if (!isJumping && !isDodging) CheckForFloor();
+        }
     }
 
     public void SetIsJumpingFalse()
@@ -36,12 +48,13 @@ public class JumpAndDodgeManager : MonoBehaviour
     public void SetIsJumpingTrue()
     {
         isJumping = true;
-        floor = false;
+        beforeJumpPos = transform.position.y;
     }
 
     public void SetCanJumpFalse()
     {
         canJump = false;
+        Debug.Log("stopJump");
     }
 
     public void SetCanJumpTrue()
@@ -57,19 +70,18 @@ public class JumpAndDodgeManager : MonoBehaviour
     public void SetIsDodgingTrue()
     {
         isDodging = true;
-        floor = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Floor"))
         {
+            fallAnimDone = false;
             SetCanJumpTrue();
             SetIsJumpingFalse();
-            floor = true;
-            if (fall) GetComponentInParent<PlayerController>().Land();
-            fall = false;
             BaseGravity();
+            Debug.Log("floorContact");
+            StopFreeFalling();
         }
     }
 
@@ -86,22 +98,38 @@ public class JumpAndDodgeManager : MonoBehaviour
 
     public void CheckForFloor()
     {
-        if (!floor) fall = true;
+        playerController.CheckForFloor();
+        Debug.Log("checkingFloor");
     }
     
     public void HighGravity()
     {
         playerRb.gravityScale = gravityMod;
+        Debug.Log("HighGravity");
+
     }
 
     public void ZeroGravity()
     {
-        playerRb.gravityScale = 0;
+        playerRb.gravityScale = 0f;
+        playerRb.velocity = new Vector2(0f, 0f);
         Debug.Log("ZeroGravity");
     }
 
     public void BaseGravity()
     {
         playerRb.gravityScale = baseGravityValue;
+        Debug.Log("BaseGravity");
+    }
+
+    public void StopFreeFalling()
+    {
+        playerController.StopFreeFalling();
+        isFreeFalling = false;
+    }
+
+    public void SetFallAnimTrue()
+    {
+        fallAnimDone = true;
     }
 }

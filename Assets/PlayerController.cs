@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header ("Objects")]
+    [Header("Objects")]
     [SerializeField] Animator animator;
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] JumpAndDodgeManager jumpAndDogdeManager;
-    
-    [Header ("Settings")]
+
+    [Header("Settings")]
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float speed = 5f;
     [SerializeField] float speedMultiplier = 3f;
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     bool performAJump = false;
     bool performADodge = false;
     bool sprint = false;
-    bool fall = true;
+    Vector3 rayCastOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -38,10 +38,8 @@ public class PlayerController : MonoBehaviour
         isJumping = jumpAndDogdeManager.isJumping;
         isDodging = jumpAndDogdeManager.isDodging;
         canJump = jumpAndDogdeManager.canJump;
-        fall = jumpAndDogdeManager.fall;
         sprint = false;
 
-        if (fall) Fall();
 
         if (!isJumping)
         {
@@ -129,14 +127,34 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("dodge");
     }
 
-    void Fall()
+    void FreeFalling()
     {
-        animator.SetBool("fall", true);
+        animator.SetBool("isFreeFalling", true);
     }
 
-     public void Land()
+    public void StopFreeFalling()
     {
-        animator.SetBool("fall", false);
+        animator.SetBool("isFreeFalling", false);
     }
 
+    public void CheckForFloor()
+    {
+        if (isFacingRight) rayCastOffset = new Vector3(0.85f, -1.5f, 0f);
+        else rayCastOffset = new Vector3(-0.85f, -1.5f, 0f);
+
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, 10f);
+        if (raycastHit2D.collider == null)
+        {
+            FreeFalling();
+        }
+        //else if (raycastHit2D.collider.CompareTag("Floor")) StopFreeFalling();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Floor"))
+        {
+            StopFreeFalling();
+        }
+    }
 }
