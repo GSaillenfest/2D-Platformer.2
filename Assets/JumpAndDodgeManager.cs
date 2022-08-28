@@ -20,6 +20,7 @@ public class JumpAndDodgeManager : MonoBehaviour
     
     float baseGravityValue;
     float beforeJumpPos;
+    bool highGravity = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,13 +31,13 @@ public class JumpAndDodgeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerRb.velocity.y < 0 && isJumping && !isFreeFalling) HighGravity();
+        if (playerRb.velocity.y < 0 && isJumping && !isFreeFalling && !highGravity) HighGravity();
         //else if (!isJumping && !isFreeFalling) BaseGravity();
 
         if (!fallAnimDone && playerRb.velocity.y < 0)
         {
-            if (isJumping && transform.position.y < beforeJumpPos + 1f) CheckForFloor();
-            else if (!isJumping && !isDodging) CheckForFloor();
+            //if (isJumping && transform.position.y < beforeJumpPos) CheckForFloor();
+            if (!isJumping && !isDodging) CheckForFloor();
         }
     }
 
@@ -105,20 +106,25 @@ public class JumpAndDodgeManager : MonoBehaviour
     public void HighGravity()
     {
         playerRb.gravityScale = gravityMod;
+        highGravity = true;
         Debug.Log("HighGravity");
-
+        playerRb.drag = 1f;
     }
 
     public void ZeroGravity()
     {
         playerRb.gravityScale = 0f;
+        highGravity = false;
         playerRb.velocity = new Vector2(0f, 0f);
+        playerRb.drag = 5f;
         Debug.Log("ZeroGravity");
     }
 
     public void BaseGravity()
     {
+        highGravity = false;
         playerRb.gravityScale = baseGravityValue;
+        playerRb.drag = 1f;
         Debug.Log("BaseGravity");
     }
 
