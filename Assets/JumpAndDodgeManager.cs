@@ -81,20 +81,25 @@ public class JumpAndDodgeManager : MonoBehaviour
             SetCanJumpTrue();
             SetIsJumpingFalse();
             BaseGravity();
+            StopFalling();
+            SetIsDodgingFalse();
             Debug.Log("floorContact");
-            StopFreeFalling();
         }
     }
 
-    void UnableCollider()
+    void ReduceCollider()
     {
-        playerCollider.enabled = false;
-        Debug.Log("UncheckedColl");
+        playerCollider.size = new Vector2(1.5f, 2.74f/2f);
+        playerCollider.offset = new Vector2(0.18f, -.42f);
+        Debug.Log("ReducedColl");
     }
 
-    public void EnableCollider()
+    public void RestoreCollider()
     {
-        playerCollider.enabled = true;
+        playerCollider.size = new Vector2(1.5f, 2.74f);
+        playerCollider.offset = new Vector2(0.18f, 0.25f);
+        Debug.Log("RestoredColl");
+
     }
 
     public void CheckForFloor()
@@ -128,9 +133,9 @@ public class JumpAndDodgeManager : MonoBehaviour
         Debug.Log("BaseGravity");
     }
 
-    public void StopFreeFalling()
+    public void StopFalling()
     {
-        playerController.StopFreeFalling();
+        playerController.StopFalling();
         isFreeFalling = false;
     }
 

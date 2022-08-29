@@ -3370,7 +3370,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: UnableCollider
+    functionName: ReduceCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -3383,29 +3383,22 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0
-    functionName: ZeroGravity
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.6666667
-    functionName: EnableCollider
+    functionName: RestoreCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.7
-    functionName: BaseGravity
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.7
+  - time: 0.68333334
     functionName: CheckForFloor
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
+    functionName: SetIsDodgingFalse
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

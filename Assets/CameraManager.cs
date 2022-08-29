@@ -25,13 +25,13 @@ public class CameraManager : MonoBehaviour
         {
             if (transform.position.y > player.transform.position.y)
             {
-                nextPos = new Vector3(player.transform.position.x, transform.position.y - 2 *boundary, transform.position.z);
+                nextPos = new Vector3(player.transform.position.x, transform.position.y - 1.5f * boundary, transform.position.z);
                 transform.position = nextPos; //Vector3.SmoothDamp(transform.position, nextPos, ref playerVelocity, smoothTime);
             }
             else
             {
-                nextPos = new Vector3(player.transform.position.x, transform.position.y + 2 * boundary, transform.position.z);
-                transform.position = Vector3.SmoothDamp(transform.position, nextPos, ref velocity, smoothTime);
+                nextPos = new Vector3(player.transform.position.x, transform.position.y + 1.5f * boundary, transform.position.z);
+                transform.position = nextPos; //Vector3.SmoothDamp(transform.position, nextPos, ref velocity, smoothTime);
             }
         }
 

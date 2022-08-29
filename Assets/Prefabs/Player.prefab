@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 7819204885568135282}
   - component: {fileID: 7183458563444478673}
   - component: {fileID: 2175107492451788047}
-  - component: {fileID: 1583942554274386287}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -156,7 +155,6 @@ MonoBehaviour:
   animator: {fileID: 1043247532522897121}
   playerRb: {fileID: 7819204885568135282}
   jumpAndDogdeManager: {fileID: 0}
-  floorTrigger: {fileID: 1583942554274386287}
   jumpForce: 1700
   speed: 20
   speedMultiplier: 2
@@ -176,32 +174,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.020240545, y: 0.55}
   m_Size: {x: 2.2001987, y: 3.2264507}
   m_Direction: 0
---- !u!61 &1583942554274386287
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043247530635345442}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.12761939, y: -6.491623}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.54057, y: 10.665146}
-  m_EdgeRadius: 0
 --- !u!1 &1043247530676734744
 GameObject:
   m_ObjectHideFlags: 0

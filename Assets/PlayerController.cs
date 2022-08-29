@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float speed = 5f;
     [SerializeField] float speedMultiplier = 3f;
+    [SerializeField] float mediumFall = 15f;
+    [SerializeField] float freeFall = 10f;
 
 
     float horizontalMovement;
@@ -59,9 +61,10 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
                 performAJump = true;
+                jumpAndDogdeManager.SetCanJumpFalse();
             }
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && horizontalMovement != 0f)
             {
                 sprint = true;
                 animator.SetBool("isRunning", true);
@@ -131,30 +134,32 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("isFreeFalling", true);
     }
+    void MediumFalling()
+    {
+        animator.SetBool("mediumFall", true);
+    }
 
-    public void StopFreeFalling()
+    public void StopFalling()
     {
         animator.SetBool("isFreeFalling", false);
+        animator.SetBool("mediumFall", false);
     }
 
     public void CheckForFloor()
     {
-        if (isFacingRight) rayCastOffset = new Vector3(0.85f, -1.5f, 0f);
-        else rayCastOffset = new Vector3(-0.85f, -1.5f, 0f);
+        if (isFacingRight) rayCastOffset = new Vector3(1.5f, -1.5f, 0f);
+        else rayCastOffset = new Vector3(-1.5f, -1.5f, 0f);
 
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, 10f);
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, freeFall);
         if (raycastHit2D.collider == null)
         {
             FreeFalling();
         }
-        //else if (raycastHit2D.collider.CompareTag("Floor")) StopFreeFalling();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Floor"))
+        raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, mediumFall);
+        if (raycastHit2D.collider == null)
         {
-            StopFreeFalling();
+            MediumFalling();
         }
+        //else if (raycastHit2D.collider.CompareTag("Floor")) StopFreeFalling();
     }
 }

@@ -21,7 +21,7 @@ public class DodgeStateManager : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         FindObjectOfType<JumpAndDodgeManager>().SetIsDodgingFalse();
-        FindObjectOfType<JumpAndDodgeManager>().EnableCollider();
+        FindObjectOfType<JumpAndDodgeManager>().RestoreCollider();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
