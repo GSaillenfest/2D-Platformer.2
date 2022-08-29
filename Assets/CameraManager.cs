@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         transform.position = new Vector3(player.transform.position.x, transform.position.y, -10f);
         if (Mathf.Abs(transform.position.y - player.transform.position.y) > boundary)

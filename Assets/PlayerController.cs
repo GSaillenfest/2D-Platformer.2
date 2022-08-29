@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed = 5f;
     [SerializeField] float speedMultiplier = 3f;
     [SerializeField] float mediumFall = 15f;
-    [SerializeField] float freeFall = 10f;
+    [SerializeField] float highFall = 10f;
 
 
     float horizontalMovement;
@@ -132,7 +132,12 @@ public class PlayerController : MonoBehaviour
 
     void FreeFalling()
     {
-        animator.SetBool("isFreeFalling", true);
+        if (!jumpAndDogdeManager.isFreeFalling)
+        {
+            jumpAndDogdeManager.isFreeFalling = true;
+            animator.SetTrigger("isFreeFalling");
+            Debug.Log("freefalling");
+        }
     }
     void MediumFalling()
     {
@@ -141,7 +146,6 @@ public class PlayerController : MonoBehaviour
 
     public void StopFalling()
     {
-        animator.SetBool("isFreeFalling", false);
         animator.SetBool("mediumFall", false);
     }
 
@@ -150,16 +154,19 @@ public class PlayerController : MonoBehaviour
         if (isFacingRight) rayCastOffset = new Vector3(1.5f, -1.5f, 0f);
         else rayCastOffset = new Vector3(-1.5f, -1.5f, 0f);
 
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, freeFall);
-        if (raycastHit2D.collider == null)
-        {
-            FreeFalling();
-        }
+        RaycastHit2D raycastHit2D;
         raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, mediumFall);
         if (raycastHit2D.collider == null)
         {
-            MediumFalling();
+            Debug.Log("pas de medium plateforme");
+            raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, highFall);
+            if (raycastHit2D.collider == null)
+            {
+                Debug.Log("pas de high plateforme");
+
+                FreeFalling();
+            }
+            else MediumFalling(); Debug.Log(raycastHit2D.collider.name);
         }
-        //else if (raycastHit2D.collider.CompareTag("Floor")) StopFreeFalling();
     }
 }
