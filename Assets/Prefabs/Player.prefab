@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043247530436167072}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.43, z: 0}
+  m_LocalPosition: {x: 0.16, y: -0.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -154,10 +154,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1043247532522897121}
   playerRb: {fileID: 7819204885568135282}
-  jumpAndDogdeManager: {fileID: 0}
-  jumpForce: 1700
-  speed: 20
+  jumpAndDogdeManager: {fileID: 1459807710}
+  jumpForce: 3000
+  speed: 100
   speedMultiplier: 2
+  mediumFall: 15
+  highFall: 30
 --- !u!70 &2175107492451788047
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,8 +173,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.020240545, y: 0.55}
-  m_Size: {x: 2.2001987, y: 3.2264507}
+  m_Offset: {x: 0.18, y: 0.25}
+  m_Size: {x: 1.5, y: 2.74}
   m_Direction: 0
 --- !u!1 &1043247530676734744
 GameObject:
@@ -199,7 +201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043247530676734744}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.47000003, y: -1.3, z: 0}
+  m_LocalPosition: {x: 0.47, y: -1.3, z: 0}
   m_LocalScale: {x: 1.06, y: 1.06, z: 1.06}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -283,7 +285,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043247530769766576}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.6171718, y: 0.17463921, z: 0}
+  m_LocalPosition: {x: 0.6171718, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -367,7 +369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043247531381089216}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.13999999, y: -1.3, z: 0}
+  m_LocalPosition: {x: -0.14, y: -1.3, z: 0}
   m_LocalScale: {x: 1.06, y: 1.06, z: 1.06}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -620,9 +622,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043247532513639850}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.049999952, y: 0.65000004, z: -0.061750576}
+  m_LocalPosition: {x: 0.172, y: 0.612, z: -0.06175058}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1043247532522897122}
   m_RootOrder: 0
@@ -690,6 +692,7 @@ GameObject:
   - component: {fileID: 1043247532522897122}
   - component: {fileID: 1043247532522897121}
   - component: {fileID: 7394822818071572896}
+  - component: {fileID: 1459807710}
   m_Layer: 0
   m_Name: Sprites
   m_TagString: Untagged
@@ -705,7 +708,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043247532522897123}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.43, z: 0}
+  m_LocalPosition: {x: 0, y: 0.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -751,7 +754,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.58}
+  m_Offset: {x: 0.1933446, y: -1.5105985}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -762,5 +765,28 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.58, y: 0.10781869}
+  m_Size: {x: 1.64, y: 0.17244554}
   m_EdgeRadius: 0
+--- !u!114 &1459807710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043247532522897123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0574b3eb9c915f5449d22753542d4b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isJumping: 0
+  isDodging: 0
+  canJump: 1
+  isFreeFalling: 0
+  fallAnimDone: 0
+  playerRb: {fileID: 7819204885568135282}
+  playerCollider: {fileID: 2175107492451788047}
+  playerController: {fileID: 7183458563444478673}
+  gravityMod: 2.5
+  baseDrag: 5
+  moddedDrag: 10

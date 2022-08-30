@@ -34,8 +34,12 @@ public class JumpAndDodgeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerRb.velocity.y < 0 && !isFreeFalling && !highGravity) HighGravity();
-        else if (!baseGravity && !isFreeFalling && playerRb.velocity.y == 0 && !baseGravity) BaseGravity();
+        if (playerRb.velocity.y < 0 && !isFreeFalling && !highGravity && !isDodging) HighGravity();
+        else if (!baseGravity && !isFreeFalling && playerRb.velocity.y == 0 && !baseGravity)
+        {
+            BaseGravity();
+            floorChecked = false;
+        }
 
 
         if (!fallAnimDone && playerRb.velocity.y < 0)
@@ -74,6 +78,7 @@ public class JumpAndDodgeManager : MonoBehaviour
     {
         isDodging = true;
     }
+
     void ReduceCollider()
     {
         playerCollider.size = new Vector2(1.5f, 2.74f / 2f);
@@ -94,7 +99,7 @@ public class JumpAndDodgeManager : MonoBehaviour
         if (!floorChecked)
         {
             playerController.CheckForFloor();
-            //floorChecked = true;
+            floorChecked = true;
             Debug.Log("checkingFloor");
         }
     }

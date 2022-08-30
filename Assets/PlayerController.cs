@@ -166,7 +166,11 @@ public class PlayerController : MonoBehaviour
 
                 FreeFalling();
             }
-            else MediumFalling(); Debug.Log(raycastHit2D.collider.name);
+            else if (raycastHit2D.collider.CompareTag("Floor"))
+            { 
+                MediumFalling(); 
+                Debug.Log(raycastHit2D.collider.name); 
+            }
         }
     }
 }
