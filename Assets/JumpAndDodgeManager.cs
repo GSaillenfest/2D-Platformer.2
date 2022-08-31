@@ -24,6 +24,7 @@ public class JumpAndDodgeManager : MonoBehaviour
     bool highGravity = false;
     bool baseGravity = true;
     bool floorChecked = false;
+    bool colliderRestored = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,11 @@ public class JumpAndDodgeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerRb.velocity.y < 0 && !isFreeFalling && !highGravity && !isDodging) HighGravity();
+        if (playerRb.velocity.y < 0f && !isFreeFalling && !highGravity && !isDodging)
+        {
+            Debug.Log(playerRb.velocity.y);
+            HighGravity();
+        }
         else if (!baseGravity && !isFreeFalling && playerRb.velocity.y == 0 && !baseGravity)
         {
             BaseGravity();
@@ -46,6 +51,9 @@ public class JumpAndDodgeManager : MonoBehaviour
         {
             if (!isJumping && !isDodging) CheckForFloor();
         }
+
+        isDodging = playerController.isDodging;
+        if (!isDodging && !colliderRestored) RestoreCollider();
     }
 
     public void SetIsJumpingFalse()
@@ -61,7 +69,6 @@ public class JumpAndDodgeManager : MonoBehaviour
     public void SetCanJumpFalse()
     {
         canJump = false;
-        Debug.Log("stopJump");
     }
 
     public void SetCanJumpTrue()
@@ -83,15 +90,16 @@ public class JumpAndDodgeManager : MonoBehaviour
     {
         playerCollider.size = new Vector2(1.5f, 2.74f / 2f);
         playerCollider.offset = new Vector2(0.18f, -.42f);
-        Debug.Log("ReducedColl");
+        colliderRestored = false;
+        Debug.Log("ReduceColl");
     }
 
     public void RestoreCollider()
     {
         playerCollider.size = new Vector2(1.5f, 2.74f);
         playerCollider.offset = new Vector2(0.18f, 0.25f);
-        Debug.Log("RestoredColl");
-
+        colliderRestored = true;
+        Debug.Log("RestoreColl");
     }
 
     public void CheckForFloor()
@@ -100,7 +108,6 @@ public class JumpAndDodgeManager : MonoBehaviour
         {
             playerController.CheckForFloor();
             floorChecked = true;
-            Debug.Log("checkingFloor");
         }
     }
 
@@ -109,7 +116,6 @@ public class JumpAndDodgeManager : MonoBehaviour
         playerRb.gravityScale = gravityMod;
         highGravity = true;
         baseGravity = false;
-        Debug.Log("HighGravity");
         playerRb.drag = baseDrag;
     }
 
@@ -118,9 +124,8 @@ public class JumpAndDodgeManager : MonoBehaviour
         playerRb.gravityScale = 0f;
         highGravity = false;
         baseGravity = false;
-        playerRb.velocity = new Vector2(0f, 0f);
+        playerRb.velocity = Vector2.zero;
         playerRb.drag = moddedDrag;
-        Debug.Log("ZeroGravity");
     }
 
     public void BaseGravity()
@@ -129,7 +134,6 @@ public class JumpAndDodgeManager : MonoBehaviour
         baseGravity = true;
         playerRb.gravityScale = baseGravityValue;
         playerRb.drag = baseDrag;
-        Debug.Log("BaseGravity");
     }
 
     public void StopFalling()
@@ -161,6 +165,11 @@ public class JumpAndDodgeManager : MonoBehaviour
             Debug.Log("floorContact");
             floorChecked = false;
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Floor") && playerRb.velocity.y < -.5f) SetCanJumpFalse();
     }
 
 }

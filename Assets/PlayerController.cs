@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     float multiplier = 1f;
     bool isFacingRight = true;
     bool isJumping = false;
-    bool isDodging = false;
+    public bool isDodging = false;
     bool canJump = true;
     bool performAJump = false;
     bool performADodge = false;
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalMovement = Input.GetAxis("Horizontal");
         isJumping = jumpAndDogdeManager.isJumping;
-        isDodging = jumpAndDogdeManager.isDodging;
+        isDodging = animator.GetBool("isDodging");
         canJump = jumpAndDogdeManager.canJump;
         sprint = false;
 
@@ -69,12 +69,15 @@ public class PlayerController : MonoBehaviour
                 sprint = true;
                 animator.SetBool("isRunning", true);
                 multiplier = speedMultiplier;
+                GetComponent<TrailRenderer>().enabled = true;
             }
             else
             {
                 animator.SetBool("isRunning", false);
                 multiplier = 1f;
+                GetComponent<TrailRenderer>().enabled = false;
             }
+
         }
     }
 
@@ -128,6 +131,7 @@ public class PlayerController : MonoBehaviour
     void Dodge()
     {
         animator.SetTrigger("dodge");
+        Debug.Log("Dodge");
     }
 
     void FreeFalling()
@@ -136,7 +140,6 @@ public class PlayerController : MonoBehaviour
         {
             jumpAndDogdeManager.isFreeFalling = true;
             animator.SetTrigger("isFreeFalling");
-            Debug.Log("freefalling");
         }
     }
     void MediumFalling()
@@ -158,18 +161,15 @@ public class PlayerController : MonoBehaviour
         raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, mediumFall);
         if (raycastHit2D.collider == null)
         {
-            Debug.Log("pas de medium plateforme");
             raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, highFall);
             if (raycastHit2D.collider == null)
             {
-                Debug.Log("pas de high plateforme");
 
                 FreeFalling();
             }
             else if (raycastHit2D.collider.CompareTag("Floor"))
             { 
                 MediumFalling(); 
-                Debug.Log(raycastHit2D.collider.name); 
             }
         }
     }

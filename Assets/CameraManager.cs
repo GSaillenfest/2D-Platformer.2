@@ -6,7 +6,6 @@ public class CameraManager : MonoBehaviour
 {
 
     [SerializeField] GameObject player;
-    [SerializeField] float boundary = 8f;
     [SerializeField] float smoothTime = 0.5f;
     private Vector3 velocity = Vector3.zero;
     Vector3 targetPos;
