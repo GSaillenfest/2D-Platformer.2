@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speedMultiplier = 3f;
     [SerializeField] float mediumFall = 15f;
     [SerializeField] float highFall = 10f;
+    [SerializeField] float xOffset = 3f;
 
 
     float horizontalMovement;
@@ -69,13 +70,13 @@ public class PlayerController : MonoBehaviour
                 sprint = true;
                 animator.SetBool("isRunning", true);
                 multiplier = speedMultiplier;
-                GetComponent<TrailRenderer>().enabled = true;
+                GetComponent<TrailRenderer>().emitting = true;
             }
             else
             {
                 animator.SetBool("isRunning", false);
                 multiplier = 1f;
-                GetComponent<TrailRenderer>().enabled = false;
+                GetComponent<TrailRenderer>().emitting = false;
             }
 
         }
@@ -154,22 +155,30 @@ public class PlayerController : MonoBehaviour
 
     public void CheckForFloor()
     {
-        if (isFacingRight) rayCastOffset = new Vector3(1.5f, -1.5f, 0f);
-        else rayCastOffset = new Vector3(-1.5f, -1.5f, 0f);
-
+        float dirXOffset;
         RaycastHit2D raycastHit2D;
-        raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, mediumFall);
+        if (isFacingRight) dirXOffset = xOffset;
+        else dirXOffset = -xOffset;
+
+        rayCastOffset = new Vector3(dirXOffset, 0f, 0f);
+        raycastHit2D = Physics2D.Raycast(transform.position, Vector2.down, mediumFall, 8);
+        Debug.DrawLine(transform.position, transform.position + new Vector3(0f, -50f, 0f), Color.green, 2f, false);
         if (raycastHit2D.collider == null)
         {
-            raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, highFall);
+            raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, mediumFall, 8);
+            Debug.DrawLine(transform.position + rayCastOffset, transform.position + rayCastOffset + new Vector3(0f, -50f, 0f), Color.green, 2f, false);
             if (raycastHit2D.collider == null)
             {
-
-                FreeFalling();
-            }
-            else if (raycastHit2D.collider.CompareTag("Floor"))
-            { 
-                MediumFalling(); 
+                raycastHit2D = Physics2D.Raycast(transform.position + rayCastOffset, Vector2.down, highFall, 8);
+                Debug.DrawLine(transform.position + rayCastOffset, transform.position + rayCastOffset + new Vector3(0f, -50f, 0f), Color.green, 2f, false);
+                if (raycastHit2D.collider == null)
+                {
+                    FreeFalling();
+                }
+                else if (raycastHit2D.collider.CompareTag("Floor"))
+                {
+                    MediumFalling();
+                }
             }
         }
     }

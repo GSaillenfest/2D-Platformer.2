@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 3652063397523678971}
   - component: {fileID: 3652063397523678973}
   - component: {fileID: 3652063397523678972}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grass
   m_TagString: Floor
   m_Icon: {fileID: 0}
