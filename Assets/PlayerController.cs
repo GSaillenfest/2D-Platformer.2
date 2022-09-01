@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!isDodging)
             {
-                if (Input.GetKeyDown(KeyCode.S) && horizontalMovement != 0f)
+                if (Input.GetButtonDown("Crouch") && horizontalMovement != 0f)
                 {
                     performADodge = true;
                 }
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Space) && canJump)
+            if (Input.GetButtonDown("Jump") && canJump)
             {
                 performAJump = true;
                 jumpAndDogdeManager.SetCanJumpFalse();

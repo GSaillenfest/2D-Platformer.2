@@ -10,10 +10,12 @@ public class GhostScript : MonoBehaviour
     private void OnEnable()
     {
         transform.position = startPos;
+        transform.GetComponentInChildren<Animator>().enabled = true;
     }
 
     private void OnDisable()
     {
         transform.position = startPos;
+        transform.GetComponentInChildren<Animator>().enabled = false;
     }
 }
