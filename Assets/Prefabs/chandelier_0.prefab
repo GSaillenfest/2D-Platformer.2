@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 264264625595320808}
   - component: {fileID: 264264625595320809}
   - component: {fileID: 9022628169339072502}
-  - component: {fileID: 1148001724995259953}
   m_Layer: 3
   m_Name: chandelier_0
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,7 +99,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -159,21 +158,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.08, y: 0.75622153}
   m_EdgeRadius: 0
---- !u!256 &1148001724995259953
-FrictionJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264264625595320822}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0, y: 1.595}
-  m_ConnectedAnchor: {x: 284.2284, y: 20.113615}
-  m_MaxForce: 1
-  m_MaxTorque: 1

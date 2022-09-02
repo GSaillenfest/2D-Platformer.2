@@ -7,6 +7,7 @@ public class GhostJumping : MonoBehaviour
 
     [SerializeField] GameObject ghost;
     [SerializeField] Animator ghostAnimator;
+    bool animDoneOnce = false;
 
 
     // Update is called once per frame
@@ -18,12 +19,11 @@ public class GhostJumping : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (ghostAnimator.GetBool("animDone"))
+            if (!animDoneOnce)
             {
-                ghostAnimator.SetBool("animDone", false);
+                ghost.SetActive(true);
+                ghostAnimator.SetTrigger("jump");
             }
-            ghost.SetActive(true);
-            ghostAnimator.SetTrigger("jump");
         }
     }
 
@@ -32,6 +32,7 @@ public class GhostJumping : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             ghost.SetActive(false);
+            animDoneOnce = true;
         }
     }
 }

@@ -6,6 +6,7 @@ public class GhostDodging : MonoBehaviour
 {
     [SerializeField] GameObject ghost;
     [SerializeField] Animator ghostAnimator;
+    bool animDoneOnce = false;
 
 
     // Update is called once per frame
@@ -17,12 +18,11 @@ public class GhostDodging : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (ghostAnimator.GetBool("animDone"))
+            if (!animDoneOnce)
             {
-                ghostAnimator.SetBool("animDone", false);
+                ghost.SetActive(true);
+                ghostAnimator.SetTrigger("dodge");
             }
-            ghost.SetActive(true);
-            ghostAnimator.SetTrigger("dodge");
         }
     }
 
@@ -31,6 +31,7 @@ public class GhostDodging : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             ghost.SetActive(false);
+            animDoneOnce = true;
         }
     }
 }
