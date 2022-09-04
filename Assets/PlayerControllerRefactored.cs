@@ -77,8 +77,10 @@ public class PlayerControllerRefactored : MonoBehaviour
         }
 
         if (isJumping && playerRb.velocity.y < 0 && !highGravity) HighGravity();
-        else if (!isJumping && !isOnGround & playerRb.velocity.y < 0 && !highGravity) HighGravity();
+        else if (!isJumping && !isOnGround && playerRb.velocity.y < 0 && !highGravity) HighGravity();
         else if (isOnGround && !baseGravity) BaseGravity();
+
+        if (playerRb.velocity.y == 0 && !isOnGround && highGravity) isOnGround = CheckFloor(2f);
 
     }
 

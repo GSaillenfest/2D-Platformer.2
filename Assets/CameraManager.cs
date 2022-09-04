@@ -19,13 +19,7 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        //if (Mathf.Abs(transform.position.x - player.transform.position.x) > boundary)
-        //{
-            targetPos = new Vector3 (player.transform.position.x, transform.position.y , -10f);
-        //}
-        
+        targetPos = new Vector3 (player.transform.position.x + 10f, transform.position.y, -10f);
         transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime);
-
-
     }
 }
